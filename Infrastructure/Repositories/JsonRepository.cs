@@ -1,17 +1,19 @@
 ﻿using System.Text.Json;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
 
 namespace Infrastructure.Repositories;
 
-public class JsonRepository
+public class JsonRepository : IJsonRepository
 {
     private readonly string _filePath;
     private readonly string _dataDirectory;
     private static JsonSerializerOptions _jsonOptions = new() { WriteIndented = true };
 
-    public JsonRepository(string dataDirectory, string fileName)
+    public JsonRepository()
     {
-        _dataDirectory = dataDirectory;
-        _filePath = Path.Combine(dataDirectory, fileName);
+        _dataDirectory = Path.Combine(AppContext.BaseDirectory, "Data");
+        _filePath = Path.Combine(_dataDirectory, "members.json");
     }
 
     public static void EnsureInitialized(string dataDirectory, string filePath)
@@ -21,7 +23,7 @@ public class JsonRepository
 
 
         if (!File.Exists(filePath))
-            // Om inte filen products.json finns på den angivna filsökvägen, skapa den och skriv in en tom array i json-format (motsvarar en tom lista när den läses in)
+            // Om inte filen members.json finns på den angivna filsökvägen, skapa den och skriv in en tom array i json-format (motsvarar en tom lista när den läses in)
             File.WriteAllText(filePath, "[]");
 
         // Om filen finns men är tom/whitespace, initiera den till en tom array
@@ -30,4 +32,14 @@ public class JsonRepository
             File.WriteAllText(filePath, "[]");
     }
 
+    public async Task SaveContentToFileAsync(IEnumerable<Member> members)
+    {
+        if (!Directory.Exists(_dataDirectory))
+        {
+            Directory.CreateDirectory(_dataDirectory);
+        }
+        var json = JsonSerializer.Serialize(members, _jsonOptions);
+        await File.WriteAllTextAsync(_filePath, json);
+
+    }
 }

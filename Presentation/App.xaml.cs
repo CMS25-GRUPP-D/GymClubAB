@@ -1,12 +1,14 @@
-﻿using Infrastructure.Repositories;
+﻿using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Windows;
+using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Presentation.ViewModels;
 using Presentation.Views;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Windows;
 
 namespace Presentation;
 
@@ -19,6 +21,8 @@ public partial class App : Application
     {
         _host = Host.CreateDefaultBuilder().ConfigureServices(services =>
         {
+            services.AddSingleton<IJsonRepository, JsonRepository>();
+            services.AddSingleton<IMemberService, MemberService>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddTransient<MemberAddViewModel>();
