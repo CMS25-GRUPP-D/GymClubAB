@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:Presentation.Views"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="690">
     
         <Grid Margin="20">
             <ContentControl Content="{Binding CurrentViewModel}">
