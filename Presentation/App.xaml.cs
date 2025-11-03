@@ -28,6 +28,9 @@ public partial class App : Application
             services.AddTransient<MemberAddViewModel>();
             services.AddTransient<MemberAddView>();
 
+            services.AddScoped<MemberListViewModel>();
+            services.AddScoped<MemberListView>();
+
         })
         .Build();
 

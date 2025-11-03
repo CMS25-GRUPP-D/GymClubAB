@@ -25,6 +25,7 @@
                 <Label Content="Personnummer" />
                 <TextBox Text="{Binding Member.SocialSecurityNumber}" Margin="5 0 5 0" />
                 <TextBlock Text="{Binding ErrorMessage}" Margin="5 0 5 0" Foreground="Red" />
+                <TextBlock Text="{Binding SuccessMessage}" Margin="5 0 5 0" Foreground="Green" />
             </StackPanel>
 
 
