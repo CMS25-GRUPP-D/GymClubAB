@@ -44,6 +44,7 @@
                         <TextBlock Grid.Column="3" Text="{Binding Email}"/>
                         <TextBlock Grid.Column="3" Text="{Binding Phonenumber}"/>
                         <TextBlock Grid.Column="3" Text="{Binding Membership}"/>
+                        <TextBlock Grid.Column="4" Text="{Binding PostalCode}" Margin="10,0,0,0"/>
 
                         <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 7 0">
                             <Button Content="Redigera" Background="#C9D6DF" Padding="5 5" Margin="0 0 8 0" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 
 namespace Presentation.ViewModels;
@@ -34,6 +35,14 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
 
         ErrorMessage = null!;
         SuccessMessage = null!;
+
+        if (string.IsNullOrWhiteSpace(Member.PostalCode) ||
+         !Regex.IsMatch(Member.PostalCode, @"^\d{5}$"))
+        {
+            ErrorMessage = "Ogiltigt postnummer (måste vara exakt 5 siffror)";
+            return;
+        }
+    
 
         var test = new Member()
         {
