@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Presentation.Views.MemberListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.Views"
+             
+             xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
+             xmlns:models="clr-namespace:Infrastructure.Models;assembly=Infrastructure"
+             d:DataContext="{d:DesignInstance Type=viewmodels:MemberListViewModel}"
+             
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="{Binding SuccessMessage}" Margin="5 0 5 0" Foreground="Green" />
+        <TextBlock Grid.Row="1" Margin="5 5 0 0" VerticalAlignment="Center" Text="{Binding Title, FallbackValue=Member list}" FontWeight="Bold" FontSize="18"  />
+        <Button Grid.Row="2" HorizontalAlignment="Right" Command="{Binding GoToMemberAddViewCommand}" Content="New member" VerticalAlignment="Stretch" Margin="0 10 0 10"  MinWidth="65" Padding="5 5" Background="LightBlue" FontSize="10" FontWeight="Bold"/>
+
+        <ListView Grid.Row="3" ItemsSource="{Binding Members}" HorizontalContentAlignment="Stretch"  >
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:Member}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding SocialSecurityNumber}" />
+                        <TextBlock Grid.Column="1" Text="{Binding FirstName}" />
+                        <TextBlock Grid.Column="2" Text="{Binding LastName}"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Email}"/>
+                        <TextBlock Grid.Column="4" Text="{Binding Phonenumber}"/>
+                        <TextBlock Grid.Column="5" Text="{Binding Membership}"/>
+
+                        <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 7 0">
+                            <Button Content="Redigera" Background="#C9D6DF" Padding="5 5" Margin="0 0 8 0" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            <Button Content="Ta bort" Background="#F28B82" Padding="5 5" FontSize="10" CommandParameter="{Binding SocialSecurityNumber}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        
+
+    </Grid>
+</UserControl>
