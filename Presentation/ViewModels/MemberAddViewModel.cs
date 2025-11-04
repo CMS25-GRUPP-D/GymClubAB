@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
 
 
 namespace Presentation.ViewModels;
@@ -54,5 +55,9 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
             return;
         }
     }
+
+    public ObservableCollection<MembershipLevel> MembershipLevels { get; } =
+    new ObservableCollection<MembershipLevel>
+        (Enum.GetValues(typeof(MembershipLevel)).Cast<MembershipLevel>());
 }
 
