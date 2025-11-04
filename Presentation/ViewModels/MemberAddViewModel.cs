@@ -24,12 +24,16 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
     [ObservableProperty]
     private string _errorMessage = null!;
 
+    [ObservableProperty]
+    private string _successMessage = null!;
+
 
     [RelayCommand]
     public async Task Save()
     {
 
         ErrorMessage = null!;
+        SuccessMessage = null!;
 
         var test = new Member()
         {
@@ -46,6 +50,7 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
         else
         {
             Member = new Member();
+            SuccessMessage = "New member created";
             return;
         }
     }
