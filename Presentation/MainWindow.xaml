@@ -6,23 +6,28 @@
         xmlns:local="clr-namespace:Presentation"
         xmlns:viewmodels="clr-namespace:Presentation.ViewModels"
         xmlns:views="clr-namespace:Presentation.Views"
+        
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="690">
-    
-        <Grid Margin="20">
-            <ContentControl Content="{Binding CurrentViewModel}">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type viewmodels:MemberAddViewModel}">
-                        <views:MemberAddView />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewmodels:MemberListViewModel}">
-                        <views:MemberListView />
+
+    <Grid Margin="20">
+        <ContentControl Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:MemberAddViewModel}">
+                    <views:MemberAddView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:MemberListViewModel}">
+                    <views:MemberListView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:MemberEditViewModel}">
+                    <views:MemberEditView />
                 </DataTemplate>
             </ContentControl.Resources>
-            </ContentControl>
-        </Grid>
+        </ContentControl>
+    </Grid>
 
 
-    
+
 </Window>
