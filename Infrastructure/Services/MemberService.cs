@@ -102,5 +102,18 @@ namespace Infrastructure.Services
 
             return cleanNumber.All(char.IsDigit);
         }
+
+        private static bool IsValidPersonNumber(string personalNumber)
+        {
+            if (string.IsNullOrWhiteSpace(personalNumber))
+                return false;
+
+            string cleanNumber = personalNumber.Replace("-", "").Replace(" ", "");
+
+            if (cleanNumber.Length != 10 && cleanNumber.Length != 12)
+                return false;
+
+            return cleanNumber.All(char.IsDigit);
+        }
     }
 }
