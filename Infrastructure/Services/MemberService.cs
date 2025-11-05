@@ -58,6 +58,15 @@ namespace Infrastructure.Services
                 };
             }
 
+            if (string.IsNullOrWhiteSpace(member.PostalCode) || member.PostalCode.Length != 5 || !member.PostalCode.All(char.IsDigit))
+            {
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Ogiltigt postnummer (måste vara 5 siffror)."
+                };
+            }
+
             _members.Add(member);
             await _jsonRepository.SaveContentToFileAsync(_members);
 
@@ -69,10 +78,29 @@ namespace Infrastructure.Services
                 Message = "Medlemmen har sparats."
             };
         }
-
-        public Task<bool> UpdateMemberAsync(Member member)
+        public async Task<bool> UpdateMemberAsync(Member member)
         {
-            throw new NotImplementedException();
+            var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == member.SocialSecurityNumber);
+            if (existing == null)
+                return await Task.FromResult(false);
+
+            existing.PostalCode = member.PostalCode;
+            await _jsonRepository.SaveContentToFileAsync(_members);
+
+            return await Task.FromResult(true);
+        }
+
+        private static bool IsValidPersonNumber(string personalNumber)
+        {
+            if (string.IsNullOrWhiteSpace(personalNumber))
+                return false;
+
+            string cleanNumber = personalNumber.Replace("-", "").Replace(" ", "");
+
+            if (cleanNumber.Length != 10 && cleanNumber.Length != 12)
+                return false;
+
+            return cleanNumber.All(char.IsDigit);
         }
 
         private static bool IsValidPersonNumber(string personalNumber)
