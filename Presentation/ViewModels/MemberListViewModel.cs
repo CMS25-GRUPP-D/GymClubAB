@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Presentation.ViewModels;
 
@@ -18,7 +20,7 @@ public partial class MemberListViewModel : ObservableObject
         _serviceProvider = serviceProvider;
         _memberService = memberService;
 
-        //Addera PopulateMemberList
+        Initialize();
     }
 
     [ObservableProperty]
@@ -28,30 +30,60 @@ public partial class MemberListViewModel : ObservableObject
     private ObservableCollection<Member> _members = [];
 
     [ObservableProperty]
+    private string _errorMessage = null!;
+
+    [ObservableProperty]
     private string _successMessage = null!;
 
-    [RelayCommand]
-    private void PopulateMemberList()
+    private void Initialize()
     {
-
+        _ = PopulateMemberListAsync();
     }
 
     [RelayCommand]
-    private void GoToMemberAddView()
+    private async Task PopulateMemberListAsync()
     {
-
+        IEnumerable<Member> members = await _memberService.GetAllMemberAsync();
+        Members = new ObservableCollection<Member>(members);
     }
 
     [RelayCommand]
-    private void Edit(Member member)
+    private void NavigateToMemberAddView()
     {
-
+        MainViewModel mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>(); // Hämta MainViewModel från DI
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<MemberAddViewModel>(); // När man trycker på knappen byts innehållet i mainViewModel.CurrentViewModel till denna vy
     }
 
     [RelayCommand]
-    private void Delete(Member member)
+    private void Edit(Member selectedMember)
+    {
+        if (selectedMember is null)
+        {
+            ErrorMessage = "Choose a member to edit.";
+            return;
+        }
+        MemberUpdateRequest dto = new MemberUpdateRequest // göra en Factory?
+        {
+            SocialSecurityNumber = selectedMember.SocialSecurityNumber,
+            FirstName = selectedMember.FirstName,
+            LastName = selectedMember.LastName,
+            Email = selectedMember.Email,
+            Phonenumber = selectedMember.Phonenumber,
+            Membership = selectedMember.Membership
+        };
+
+        //membereditviewmodel editviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
+        //editviewmodel.setuser(selectedmember); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel
+
+        //var mmv = _serviceprovider.getrequiredservice<mainviewmodel>();
+        //mmv.currentviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
+    }
+
+    
+
+    [RelayCommand]
+    private void Delete()
     {
 
     }
-
 }

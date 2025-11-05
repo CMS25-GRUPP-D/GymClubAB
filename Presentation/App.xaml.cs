@@ -31,6 +31,9 @@ public partial class App : Application
             services.AddScoped<MemberListViewModel>();
             services.AddScoped<MemberListView>();
 
+            services.AddScoped<MemberEditViewModel>();
+            services.AddScoped<MemberEditView>();
+
         })
         .Build();
 

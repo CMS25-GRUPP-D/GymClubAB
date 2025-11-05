@@ -59,7 +59,7 @@ namespace Infrastructure.Services
             }
 
             _members.Add(member);
-            await _jsonRepository.SaveContentToFileAsync(_members);
+            await _jsonRepository.SaveContentToFileAsync(_members); 
 
 
 
