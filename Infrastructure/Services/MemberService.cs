@@ -49,6 +49,7 @@ namespace Infrastructure.Services
                 };
             }
 
+
             if (!IsValidPersonNumber(member.SocialSecurityNumber))
             {
                 return new ResponseResult
@@ -67,10 +68,17 @@ namespace Infrastructure.Services
                 };
             }
 
+            if (member.TermsAccepted == false)
+            {
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Medlemmen måste acceptera villkoren."
+                };
+            }
+
             _members.Add(member);
-            await _jsonRepository.SaveContentToFileAsync(_members); 
-
-
+            await _jsonRepository.SaveContentToFileAsync(_members);
 
             return new ResponseResult
             {
