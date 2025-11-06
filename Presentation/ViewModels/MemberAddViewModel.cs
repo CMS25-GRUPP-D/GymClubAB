@@ -61,7 +61,11 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
         {
             Member = new Member();
             SuccessMessage = "New member created";
-            return;
+
+            MainViewModel mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+            MemberListViewModel listViewModel = _serviceProvider.GetRequiredService<MemberListViewModel>();
+            await listViewModel.PopulateMemberListAsync();
+            mainViewModel.CurrentViewModel = listViewModel;
         }
     }
 

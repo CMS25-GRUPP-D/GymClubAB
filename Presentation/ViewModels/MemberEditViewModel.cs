@@ -37,3 +37,4 @@ public partial class MemberEditViewModel: ObservableObject
        
     }
 }
+ 
