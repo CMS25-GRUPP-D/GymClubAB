@@ -50,7 +50,7 @@ public partial class App : Application
         JsonRepository.EnsureInitialized(dataDir, filePath);
 
         MainViewModel mainViewModel = _host!.Services.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _host!.Services.GetRequiredService<MemberAddViewModel>();
+        mainViewModel.CurrentViewModel = _host!.Services.GetRequiredService<MemberListViewModel>();
 
         MainWindow mainWindow = _host!.Services.GetRequiredService<MainWindow>();
         mainWindow.DataContext = mainViewModel;
