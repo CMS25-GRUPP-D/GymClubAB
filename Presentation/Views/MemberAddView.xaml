@@ -22,6 +22,18 @@
 
         <StackPanel Grid.Row="2">
 
+            <StackPanel Margin="0 0 10 0">
+                <Label Content="Förnamn" />
+                <TextBox Text="{Binding Member.FirstName, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5,0,5,0" />
+            </StackPanel>
+
+            <StackPanel Margin="0 0 10 0">
+                <Label Content="Efternamn" />
+                <TextBox Text="{Binding Member.LastName, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5,0,5,0" />
+            </StackPanel>
+
             <StackPanel Margin="0 0 0 10">
                 <Label Content="Personnummer" />
                 <TextBox Text="{Binding Member.SocialSecurityNumber}" Margin="5 0 5 0" />
