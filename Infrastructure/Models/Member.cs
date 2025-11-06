@@ -1,4 +1,5 @@
 ﻿namespace Infrastructure.Models;
+
 public enum MembershipLevel
 {
     None,
@@ -15,5 +16,13 @@ public class Member
     public string? LastName { get; set; }
     public string? Email { get; set; }
     public string? Phonenumber { get; set; }
+
+    
     public MembershipLevel Membership { get; set; } = MembershipLevel.None;
+
+    public decimal Price { get; set; }
+    public string Benefits { get; set; } = string.Empty;
+
+    
+    public string MembershipLevelString => Membership.ToString();
 }
