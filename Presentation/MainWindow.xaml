@@ -28,6 +28,18 @@
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
+
+        <Button Content="Uppdatera Medlemsnivå"
+            Click="OpenMemberView_Click"
+            Width="150"
+            Height="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="10"
+            Background="LightBlue"
+            FontWeight="Bold"
+            FontSize="10"/>
+        
     </Grid>
 
 

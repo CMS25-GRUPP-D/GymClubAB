@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Presentation.Views;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,14 +12,18 @@ using System.Windows.Shapes;
 
 namespace Presentation
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void OpenMemberView_Click(object sender, RoutedEventArgs e)
+        {
+            var memberView = new MemberView(); 
+            memberView.Show(); 
         }
     }
 }

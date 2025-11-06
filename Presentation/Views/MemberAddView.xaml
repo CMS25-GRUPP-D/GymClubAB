@@ -26,7 +26,7 @@
                 <Label Content="Personnummer" />
                 <TextBox Text="{Binding Member.SocialSecurityNumber}" Margin="5 0 5 0" />
             </StackPanel>
-            
+
             <StackPanel Margin="0 0 0 10">
                 <Label Content="Postnummer" />
                 <TextBox Text="{Binding Member.PostalCode}" 
@@ -48,13 +48,6 @@
                 <Button Command="{Binding SaveCommand}" IsEnabled="{Binding TermsAccepted}" Content="Regristrera" Width="65" Height="25" Padding="5 5" Background="LightBlue" FontSize="10" FontWeight="Bold"/>
             </StackPanel>
         </StackPanel>
-
-        <StackPanel Margin="0 0 0 10">
-            <Label Content="Medlemsnivå" />
-            <ComboBox ItemsSource="{Binding MembershipLevels}"
-              SelectedItem="{Binding Member.Membership}" Margin="5 0 5 0"/>
-        </StackPanel>
-
-
+        
     </Grid>
 </UserControl>
