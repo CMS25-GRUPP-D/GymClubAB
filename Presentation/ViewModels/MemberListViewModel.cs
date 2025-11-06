@@ -62,7 +62,7 @@ public partial class MemberListViewModel : ObservableObject
             ErrorMessage = "Choose a member to edit.";
             return;
         }
-        MemberUpdateRequest dto = new MemberUpdateRequest // göra en Factory!
+        MemberUpdateRequest dto = new MemberUpdateRequest 
         {
             SocialSecurityNumber = selectedMember.SocialSecurityNumber,
             FirstName = selectedMember.FirstName,
@@ -71,15 +71,16 @@ public partial class MemberListViewModel : ObservableObject
             Phonenumber = selectedMember.Phonenumber,
             Membership = selectedMember.Membership
         };
+        // Hämta en instans av editviewmodel och skicka med medlemmen som ska redigeras
+        MemberEditViewModel editviewmodel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
+        editviewmodel.SetMember(dto); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel
 
-        //membereditviewmodel editviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
-        //editviewmodel.setuser(selectedmember); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel
-
-        //var mmv = _serviceprovider.getrequiredservice<mainviewmodel>();
-        //mmv.currentviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
+        // byt instans av currentviewmodel till editviewmodel - edt-vyn visas
+        MainViewModel mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
     }
 
-    
+
 
     [RelayCommand]
     private void Delete()
