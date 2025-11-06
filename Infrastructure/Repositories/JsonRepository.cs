@@ -43,7 +43,7 @@ public class JsonRepository : IJsonRepository
 
     }
 
-    public async Task<ResponseResult<IEnumerable<Member>>> ReadAsync()
+    public async Task<ResponseResult<IEnumerable<Member>>> GetContentFromFile()
     {
         try
         {

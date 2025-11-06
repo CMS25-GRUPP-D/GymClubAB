@@ -8,5 +8,5 @@ public interface IMemberService
     Task<bool> UpdateMemberAsync(Member member);
     Task<bool> DeleteMemberAsync(string id);
     Task<Member> GetMemberByIdAsync(string id);
-    Task<IEnumerable<Member>> GetAllMemberAsync();
+    Task<ResponseResult<IEnumerable<Member>>> GetAllMembersAsync();
 }
