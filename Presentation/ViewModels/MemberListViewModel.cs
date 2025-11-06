@@ -41,7 +41,7 @@ public partial class MemberListViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task PopulateMemberListAsync()
+    public async Task PopulateMemberListAsync()
     {
         IEnumerable<Member> members = await _memberService.GetAllMemberAsync();
         Members = new ObservableCollection<Member>(members);
