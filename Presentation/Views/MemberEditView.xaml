@@ -7,6 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <StackPanel Margin="20">
+            <!-- Rubrik -->
+            <TextBlock Text="{Binding Title}" 
+               FontSize="20" 
+               FontWeight="Bold"
+               Margin="0,0,0,20"/>
+
+            <!-- Fält för efternamn -->
+            <TextBlock Text="Efternamn:" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+             Width="250"
+             Margin="0,5,0,15"/>
+
+            <!-- Knappar -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Spacing="10">
+                <Button Content="Spara" 
+                Command="{Binding SaveCommand}" 
+                Width="100" Height="30" 
+                Background="#4CAF50" Foreground="White"/>
+
+                <Button Content="Avbryt" 
+                Command="{Binding CancelCommand}" 
+                Width="100" Height="30"
+                Background="#f44336" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </UserControl>

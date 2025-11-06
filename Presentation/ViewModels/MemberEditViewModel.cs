@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
+using Infrastructure.Models;
 
 namespace Presentation.ViewModels;
 
@@ -33,7 +34,7 @@ public partial class MemberEditViewModel: ObservableObject
     {
         var updateRequest = new MemberUpdateRequest
         {
-            LastName = LastName // skickar med efternamnet till service-lagret
+            LastName = LastName
         };
 
         await _memberService.UpdateMemberAsync(updateRequest);
@@ -44,22 +45,6 @@ public partial class MemberEditViewModel: ObservableObject
     {
         // eventuellt logik för att avbryta redigering
     }
-}
 
-    public void SetMember(MemberUpdateRequest member)
-    {
-   
-    }
-
-    [RelayCommand]
-    private async Task Save()
-    {
-        
-    }
-
-    [RelayCommand]
-    private void Cancel()
-    {
-       
-    }
+    
 }
