@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Infrastructure.Interfaces;
+﻿using Infrastructure.Interfaces;
 using Infrastructure.Models;
 
 namespace Infrastructure.Services
@@ -13,14 +8,61 @@ namespace Infrastructure.Services
         private IJsonRepository _jsonRepository = jsonRepository;
         private readonly List<Member> _members = [];
 
-        public Task<bool> DeleteMemberAsync(string id)
+        public async Task<ResponseResult<bool>> DeleteMemberAsync(string ssn)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var removedCount = _members.RemoveAll(e => e.SocialSecurityNumber == ssn);
+                if (removedCount > 0)
+                {
+                    await _jsonRepository.SaveContentToFileAsync(_members);
+                    return new ResponseResult<bool>
+                    {
+                        Success = true,
+                        Message = "Member deleted",
+                    };
+                }
+            }
+            catch (Exception)
+            {
+
+                return new ResponseResult<bool>
+                {
+                    Success = false,
+                    Message = "Could not delete user",
+                };
+            }
+
+
+            return new ResponseResult<bool>
+            {
+                Success = false,
+                Message = "Could not delete user",
+            };
+
+
         }
 
-        public Task<IEnumerable<Member>> GetAllMemberAsync()
+        public async Task<ResponseResult<IEnumerable<Member>>> GetAllMembersAsync()
         {
-            throw new NotImplementedException();
+            ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
+
+            if (!loadResult.Success)
+            {
+                return new ResponseResult<IEnumerable<Member>>
+                {
+                    Success = false,
+                    Message = loadResult.Message,
+                    Data = []
+                };
+            }
+
+            return new ResponseResult<IEnumerable<Member>>
+            {
+                Success = true,
+                Data = loadResult.Data
+            };
         }
 
         public Task<Member> GetMemberByIdAsync(string id)
