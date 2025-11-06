@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipelines;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Interfaces;
@@ -13,14 +15,45 @@ namespace Infrastructure.Services
         private IJsonRepository _jsonRepository = jsonRepository;
         private readonly List<Member> _members = [];
 
-        public Task<bool> DeleteMemberAsync(string id)
+        public async Task<ResponseResult<bool>> DeleteMemberAsync(string ssn)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var removedCount = _members.RemoveAll(e => e.SocialSecurityNumber == ssn);
+                if (removedCount > 0)
+                {
+                    await _jsonRepository.SaveContentToFileAsync(_members);
+                    return new ResponseResult<bool>
+                    {
+                        Success = true,
+                        Message = "Member deleted",
+                    };
+                }
+            }
+            catch (Exception)
+            {
+
+                return new ResponseResult<bool>
+                {
+                    Success = false,
+                    Message = "Could not delete user",
+                };
+            }
+
+
+            return new ResponseResult<bool>
+            {
+                Success = false,
+                Message = "Could not delete user",
+            };
+
+
         }
 
         public async Task<ResponseResult<IEnumerable<Member>>> GetAllMembersAsync()
         {
-           ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
+            ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
 
             if (!loadResult.Success)
             {
@@ -84,7 +117,7 @@ namespace Infrastructure.Services
             }
 
             _members.Add(member);
-            await _jsonRepository.SaveContentToFileAsync(_members); 
+            await _jsonRepository.SaveContentToFileAsync(_members);
 
 
 
