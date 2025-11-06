@@ -9,19 +9,17 @@ using System.Collections.ObjectModel;
 
 namespace Presentation.ViewModels;
 
-public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMemberService memberService) : ObservableObject
+public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMemberService memberService, IDialogService dialogService) : ObservableObject
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IMemberService _memberService = memberService;
+    private readonly IDialogService _dialogService = dialogService;
 
     [ObservableProperty]
     private string _title = "Register Member";
 
     [ObservableProperty]
-    private Member _member = new()
-    {
-
-    };
+    private Member _member = new();
 
     [ObservableProperty]
     private string _errorMessage = null!;
@@ -29,6 +27,20 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
     [ObservableProperty]
     private string _successMessage = null!;
 
+    [ObservableProperty]
+    private bool _termsAccepted;
+
+    public ObservableCollection<MembershipLevel> MembershipLevels { get; } =
+        new ObservableCollection<MembershipLevel>
+            (Enum.GetValues(typeof(MembershipLevel)).Cast<MembershipLevel>());
+
+    [RelayCommand]
+    public void ShowTerms()
+    {
+        bool accepted = _dialogService.ShowTermsOfServiceDialog();
+        TermsAccepted = accepted;
+        Member.TermsAccepted = accepted;
+    }
 
     [RelayCommand]
     public async Task Save()
@@ -36,6 +48,12 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
 
         ErrorMessage = null!;
         SuccessMessage = null!;
+
+        if (!Member.TermsAccepted)
+        {
+            ErrorMessage = "Du måste acceptera användarvillkoren.";
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(Member.PostalCode) ||
          !Regex.IsMatch(Member.PostalCode, @"^\d{5}$"))
@@ -60,6 +78,7 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
         else
         {
             Member = new Member();
+            TermsAccepted = false; // Reset checkbox after successful save
             SuccessMessage = "New member created";
 
             MainViewModel mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
@@ -69,8 +88,5 @@ public partial class MemberAddViewModel(IServiceProvider serviceProvider, IMembe
         }
     }
 
-    public ObservableCollection<MembershipLevel> MembershipLevels { get; } =
-    new ObservableCollection<MembershipLevel>
-        (Enum.GetValues(typeof(MembershipLevel)).Cast<MembershipLevel>());
 }
 
