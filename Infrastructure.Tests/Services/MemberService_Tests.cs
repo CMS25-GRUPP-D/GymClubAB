@@ -64,4 +64,43 @@ public class MemberService_Tests
         Assert.False(result.Success);
         Assert.Equal("Ogiltigt personnummer format.", result.Message);
     }
+
+    [Fact]
+    public async Task DeleteMemberAsync_ShouldReturnSuccess_When_Member_Exists()
+    {
+        // Arrange
+        var mockRepo = new Mock<IJsonRepository>();
+        var service = new MemberService(mockRepo.Object);
+
+        // First add a member to delete
+        var member = new Member
+        {
+            SocialSecurityNumber = "19900101-1234",
+            PostalCode = "12345"
+        };
+        await service.SaveMemberAsync(member);
+
+        // Act
+        var result = await service.DeleteMemberAsync("19900101-1234");
+
+        // Assert
+        Assert.True(result.Success);
+        Assert.Equal("Member deleted", result.Message);
+        mockRepo.Verify(x => x.SaveContentToFileAsync(It.IsAny<IEnumerable<Member>>()), Times.AtLeastOnce);
+    }
+
+    [Fact]
+    public async Task DeleteMemberAsync_ShouldReturnError_When_Member_Does_Not_Exist()
+    {
+        // Arrange
+        var mockRepo = new Mock<IJsonRepository>();
+        var service = new MemberService(mockRepo.Object);
+
+        // Act
+        var result = await service.DeleteMemberAsync("19900101-9999");
+
+        // Assert
+        Assert.False(result.Success);
+        Assert.Equal("Could not delete user", result.Message);
+    }
 }

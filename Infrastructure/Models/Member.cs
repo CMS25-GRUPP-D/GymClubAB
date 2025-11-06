@@ -11,6 +11,7 @@ public class Member
 {
     public string SocialSecurityNumber { get; set; } = null!;
     public string PostalCode { get; set; } = null!;
+    public bool TermsAccepted { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Email { get; set; }

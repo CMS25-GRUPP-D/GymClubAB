@@ -7,6 +7,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Presentation.Services;
 using Presentation.ViewModels;
 using Presentation.Views;
 
@@ -23,6 +24,7 @@ public partial class App : Application
         {
             services.AddSingleton<IJsonRepository, JsonRepository>();
             services.AddSingleton<IMemberService, MemberService>();
+            services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddTransient<MemberAddViewModel>();

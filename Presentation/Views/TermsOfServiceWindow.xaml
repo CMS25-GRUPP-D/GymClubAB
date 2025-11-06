@@ -1,0 +1,24 @@
+﻿<Window x:Class="Presentation.Views.TermsOfServiceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation.Views"
+        mc:Ignorable="d"
+        Title="TermsOfServiceWindow" Height="450" Width="800">
+    <Grid Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <TextBlock TextWrapping="Wrap">  
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, ipsum vitae hendrerit iaculis, nibh orci bibendum diam, ut imperdiet ligula nisl eu velit. Proin egestas nunc neque. Ut ex massa, consectetur id feugiat et, convallis sed risus. Curabitur eu ullamcorper lorem, in malesuada urna. Etiam blandit ipsum in enim mollis venenatis. Ut maximus dictum velit nec maximus. Nam ut lectus posuere, imperdiet ante ac, consequat turpis.
+Vivamus sagittis porttitor vulputate. Fusce finibus vulputate interdum. Donec non elementum urna. Curabitur tellus justo, facilisis vitae condimentum ut, vestibulum quis nisl. Maecenas nec purus erat. Pellentesque tempor mauris nec viverra gravida. Proin auctor non tellus quis pulvinar. Suspendisse pharetra purus vitae lectus accumsan tempor. Sed et magna nec nibh venenatis sagittis. Sed fringilla turpis massa, sit amet venenatis turpis luctus vitae. Mauris imperdiet ornare neque, at venenatis dui ullamcorper at. Nullam augue metus, rutrum ac tempus ut, ullamcorper vel sem. Nam enim dui, ullamcorper ac leo quis, laoreet varius dolor. Pellentesque vitae nulla lobortis, laoreet lectus quis, placerat velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque facilisis velit ac sem interdum maximus.
+Maecenas scelerisque velit vitae est auctor, et mollis libero lacinia. Cras suscipit facilisis ligula ut finibus. Nulla ornare urna sed neque aliquet auctor. Duis auctor varius tempor. Sed imperdiet lorem at maximus bibendum. Curabitur vehicula posuere odio, eu vestibulum elit luctus ac. Sed quis velit risus.
+Aliquam rutrum, elit ac vestibulum eleifend, justo enim bibendum erat, quis consequat nisi nulla sed ex. Morbi aliquam leo purus, ornare consectetur sapien tempus in. Sed varius massa sed feugiat aliquam. Aliquam at venenatis nibh. Mauris eget bibendum nunc. Donec eu auctor diam, at rhoncus felis. Pellentesque tempus turpis vitae aliquam molestie. Sed quis lorem ullamcorper, consectetur mauris ut, fringilla neque. Duis mollis ex at molestie consectetur. Nullam ut elit ut purus gravida gravida. Vestibulum blandit non lacus quis volutpat. Morbi odio sem, aliquam in viverra et, ultricies at diam. Aenean ut interdum sapien. Maecenas a purus interdum, feugiat risus eget, venenatis leo.
+Sed vestibulum dictum blandit. Donec congue turpis eget diam viverra suscipit. Praesent rutrum vel tortor at euismod. In eleifend maximus mollis. Curabitur venenatis turpis sed molestie consequat. Integer mattis convallis neque ac venenatis. Proin et nisi vehicula, accumsan risus quis, lacinia odio. Suspendisse condimentum augue quis mollis fringilla. Donec varius a eros sed porta. Ut a ornare metus, nec sodales augue. Integer pulvinar orci non tempor cursus. Nullam posuere imperdiet pretium.
+            </TextBlock>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Decline" Width="80" Margin="5" Click="Decline_Click"/>
+            <Button Content="Accept" Width="80" Margin="5" Click="Accept_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
