@@ -48,8 +48,8 @@
  
 
                         <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 7 0">
-                            <Button Content="Redigera" Background="#C9D6DF" Padding="5 5" Margin="0 0 8 0" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                            <Button Content="Ta bort" Background="#F28B82" Padding="5 5" FontSize="10" CommandParameter="{Binding SocialSecurityNumber}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            <Button Content="Edit" Background="#C9D6DF" Padding="5 5" Margin="0 0 8 0" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                            <Button Content="Remove" Background="#F28B82" Padding="5 5" FontSize="10" CommandParameter="{Binding SocialSecurityNumber}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

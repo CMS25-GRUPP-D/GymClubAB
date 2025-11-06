@@ -46,7 +46,7 @@ namespace Infrastructure.Services
 
         public async Task<ResponseResult<IEnumerable<Member>>> GetAllMembersAsync()
         {
-            ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
+           ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
 
             if (!loadResult.Success)
             {

@@ -69,7 +69,7 @@ public partial class MemberListViewModel : ObservableObject
             ErrorMessage = "Choose a member to edit.";
             return;
         }
-        MemberUpdateRequest dto = new MemberUpdateRequest
+        MemberUpdateRequest dto = new MemberUpdateRequest 
         {
             SocialSecurityNumber = selectedMember.SocialSecurityNumber,
             FirstName = selectedMember.FirstName,
