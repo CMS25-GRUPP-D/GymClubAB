@@ -49,6 +49,15 @@ namespace Infrastructure.Services
                 };
             }
 
+            if (string.IsNullOrWhiteSpace(member.LastName))
+            {
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Efternamn är obligatoriskt."
+                };
+            }
+
             if (!IsValidPersonNumber(member.SocialSecurityNumber))
             {
                 return new ResponseResult
