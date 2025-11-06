@@ -18,9 +18,25 @@ namespace Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Member>> GetAllMemberAsync()
+        public async Task<ResponseResult<IEnumerable<Member>>> GetAllMembersAsync()
         {
-            throw new NotImplementedException();
+           ResponseResult<IEnumerable<Member>> loadResult = await _jsonRepository.GetContentFromFile();
+
+            if (!loadResult.Success)
+            {
+                return new ResponseResult<IEnumerable<Member>>
+                {
+                    Success = false,
+                    Message = loadResult.Message,
+                    Data = []
+                };
+            }
+
+            return new ResponseResult<IEnumerable<Member>>
+            {
+                Success = true,
+                Data = loadResult.Data
+            };
         }
 
         public Task<Member> GetMemberByIdAsync(string id)
