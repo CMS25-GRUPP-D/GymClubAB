@@ -65,6 +65,46 @@ namespace Infrastructure.Services
             };
         }
 
+        public async Task<ResponseResult> CheckMemberAsync(Member member)
+        {
+            // 1) Saknas personnummer?
+            if (member == null || string.IsNullOrWhiteSpace(member.SocialSecurityNumber))
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Personnummer saknas."
+                };
+
+            // 2) Läs alla medlemmar från fil
+            var load = await _jsonRepository.GetContentFromFile();
+            var all = load.Success ? (load.Data ?? Enumerable.Empty<Member>())
+                                   : Enumerable.Empty<Member>();
+
+            // 3) Normalisera och kolla om det finns
+            var ssn = Normalize(member.SocialSecurityNumber);
+            bool exists = all.Any(m => Normalize(m.SocialSecurityNumber) == ssn);
+
+            if (exists)
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Personnumret finns redan registrerat."
+                };
+
+            // 4) Finns inte → ledigt
+            return new ResponseResult
+            {
+                Success = true,
+                Message = "Det finns inget konto registrerat med detta personnumret."
+            };
+        }
+
+        private static string Normalize(string value)
+            => string.IsNullOrWhiteSpace(value)
+                ? string.Empty
+                : value.Replace("-", "").Replace(" ", "").Trim().ToLower();
+
+
         public Task<Member> GetMemberByIdAsync(string id)
         {
             throw new NotImplementedException();
@@ -160,5 +200,6 @@ namespace Infrastructure.Services
 
             return cleanNumber.All(char.IsDigit);
         }
+       
     }
 }
