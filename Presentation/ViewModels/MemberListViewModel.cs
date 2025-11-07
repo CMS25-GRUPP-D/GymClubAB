@@ -87,6 +87,7 @@ public partial class MemberListViewModel : ObservableObject
         mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
     }
 
+    //Fixa updateasync-metoden så att den tar request
 
 
     [RelayCommand]

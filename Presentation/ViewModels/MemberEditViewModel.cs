@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation.ViewModels;
 
@@ -20,15 +21,21 @@ public partial class MemberEditViewModel: ObservableObject
     [ObservableProperty]
     private string _title = "Update member";
 
+    [ObservableProperty]
+    private string _errorMessage = null!;
+
+    [ObservableProperty]
+    private MemberUpdateRequest? _memberReq;
+
     public void SetMember(MemberUpdateRequest member)
     {
-   
+       
     }
 
     [RelayCommand]
     private async Task Save()
     {
-        
+
     }
 
     [RelayCommand]
@@ -36,5 +43,6 @@ public partial class MemberEditViewModel: ObservableObject
     {
        
     }
+
 }
  
