@@ -1,8 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Windows;
-using Infrastructure.Interfaces;
+﻿using Infrastructure.Interfaces;
+using Infrastructure.Mappers;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Presentation.Services;
 using Presentation.ViewModels;
 using Presentation.Views;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Windows;
 
 namespace Presentation;
 
@@ -35,6 +36,8 @@ public partial class App : Application
 
             services.AddScoped<MemberEditViewModel>();
             services.AddScoped<MemberEditView>();
+
+            services.AddScoped<IMemberMapper, MemberMapper>();
 
         })
         .Build();

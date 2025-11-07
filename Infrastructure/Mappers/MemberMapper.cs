@@ -23,7 +23,7 @@ public class MemberMapper : IMemberMapper
 
     public Member MapFromUpdateRequestToMember(MemberUpdateRequest updateRequest)
     {
-        Member member = new Member
+        Member member = new()
         {
             SocialSecurityNumber = updateRequest.SocialSecurityNumber,
             FirstName = updateRequest.FirstName,
