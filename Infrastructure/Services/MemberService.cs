@@ -1,5 +1,11 @@
-﻿using Infrastructure.Interfaces;
+﻿using Infrastructure.DTOs;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -136,17 +142,18 @@ namespace Infrastructure.Services
                 Message = "Medlemmen har sparats."
             };
         }
-        public async Task<bool> UpdateMemberAsync(Member member)
+        public async Task<bool> UpdateMemberAsync(MemberUpdateRequest memberRequest)
         {
-            var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == member.SocialSecurityNumber);
+            var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == memberRequest.SocialSecurityNumber);
             if (existing == null)
-                return await Task.FromResult(false);
+                return false;
 
-            existing.PostalCode = member.PostalCode;
+            existing.LastName = memberRequest.LastName;
+
             await _jsonRepository.SaveContentToFileAsync(_members);
-
-            return await Task.FromResult(true);
+            return true;
         }
+
 
         private static bool IsValidPersonNumber(string personalNumber)
         {
