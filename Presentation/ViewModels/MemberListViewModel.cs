@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace Presentation.ViewModels;
 
@@ -41,9 +41,16 @@ public partial class MemberListViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task PopulateMemberListAsync()
+    public async Task PopulateMemberListAsync()
     {
-        IEnumerable<Member> members = await _memberService.GetAllMemberAsync();
+        ResponseResult<IEnumerable<Member>> result = await _memberService.GetAllMembersAsync();
+        if (!result.Success)
+        {
+            Members = new ObservableCollection<Member>();
+            return;
+        }
+
+        IEnumerable<Member> members = result.Data ?? [];
         Members = new ObservableCollection<Member>(members);
     }
 
@@ -62,7 +69,7 @@ public partial class MemberListViewModel : ObservableObject
             ErrorMessage = "Choose a member to edit.";
             return;
         }
-        MemberUpdateRequest dto = new MemberUpdateRequest // göra en Factory?
+        MemberUpdateRequest dto = new MemberUpdateRequest 
         {
             SocialSecurityNumber = selectedMember.SocialSecurityNumber,
             FirstName = selectedMember.FirstName,
@@ -71,19 +78,22 @@ public partial class MemberListViewModel : ObservableObject
             Phonenumber = selectedMember.Phonenumber,
             Membership = selectedMember.Membership
         };
+        // Hämta en instans av editviewmodel och skicka med medlemmen som ska redigeras
+        MemberEditViewModel editviewmodel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
+        editviewmodel.SetMember(dto); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel
 
-        //membereditviewmodel editviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
-        //editviewmodel.setuser(selectedmember); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel
-
-        //var mmv = _serviceprovider.getrequiredservice<mainviewmodel>();
-        //mmv.currentviewmodel = _serviceprovider.getrequiredservice<membereditviewmodel>();
+        // byt instans av currentviewmodel till editviewmodel - edt-vyn visas
+        MainViewModel mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
     }
 
-    
+
 
     [RelayCommand]
-    private void Delete()
+    private async Task Delete(string SSN)
     {
-
+        var response = await _memberService.DeleteMemberAsync(SSN);
+        MemberListViewModel listViewModel = _serviceProvider.GetRequiredService<MemberListViewModel>();
+        await listViewModel.PopulateMemberListAsync();
     }
 }

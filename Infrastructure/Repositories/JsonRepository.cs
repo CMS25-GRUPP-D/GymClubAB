@@ -42,4 +42,29 @@ public class JsonRepository : IJsonRepository
         await File.WriteAllTextAsync(_filePath, json);
 
     }
+
+    public async Task<ResponseResult<IEnumerable<Member>>> GetContentFromFile()
+    {
+        try
+        {
+            string json = await File.ReadAllTextAsync(_filePath);
+
+            List<Member>? members = JsonSerializer.Deserialize<List<Member>>(json, _jsonOptions);
+            return new ResponseResult<IEnumerable<Member>>
+            {
+                Success = true,
+                Data = members ?? []
+            };
+        }
+        catch 
+        {
+            return new ResponseResult<IEnumerable<Member>>
+            {
+                Success = false,
+                Message = "Could not read file.",
+                Data = []
+            };
+        }
+     
+    }
 }
