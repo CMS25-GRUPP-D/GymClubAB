@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace Presentation.ViewModels;
 
@@ -91,8 +91,10 @@ public partial class MemberListViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void Delete()
+    private async Task Delete(string SSN)
     {
-
+        var response = await _memberService.DeleteMemberAsync(SSN);
+        MemberListViewModel listViewModel = _serviceProvider.GetRequiredService<MemberListViewModel>();
+        await listViewModel.PopulateMemberListAsync();
     }
 }
