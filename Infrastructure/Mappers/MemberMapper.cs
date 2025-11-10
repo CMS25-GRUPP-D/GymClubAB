@@ -21,18 +21,13 @@ public class MemberMapper : IMemberMapper
         return updateRequest;
     }
 
-    public Member MapFromUpdateRequestToMember(MemberUpdateRequest updateRequest)
+    public void MapFromUpdateRequestToMember(Member existing, MemberUpdateRequest updateRequest)
     {
-        Member member = new()
-        {
-            SocialSecurityNumber = updateRequest.SocialSecurityNumber,
-            FirstName = updateRequest.FirstName,
-            LastName = updateRequest.LastName,
-            Email = updateRequest.Email,
-            Phonenumber = updateRequest.Phonenumber,
-            Membership = updateRequest.Membership
-        };
-
-        return member;
+        existing.FirstName = updateRequest.FirstName;
+        existing.LastName = updateRequest.LastName;
+        existing.Email = updateRequest.Email;
+        existing.Phonenumber = updateRequest.Phonenumber;
+        existing.Membership = updateRequest.Membership;
+        existing.PostalCode = updateRequest.PostalCode;
     }
 }

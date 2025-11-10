@@ -7,5 +7,5 @@ public interface IMemberMapper
     // member -> memberpdaterequest (edit-metod listviewmodel)
     MemberUpdateRequest MapFromMemberToUpdateRequest(Member member);
     // memberupdaterequest -> member (UpdateMemberAsync memberservice)
-    Member MapFromUpdateRequestToMember(MemberUpdateRequest updateRequest);
+    void MapFromUpdateRequestToMember(Member existing, MemberUpdateRequest updateRequest);
 }
