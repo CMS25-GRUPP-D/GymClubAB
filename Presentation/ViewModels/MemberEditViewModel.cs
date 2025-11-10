@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Infrastructure.DTOs;
 using Infrastructure.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation.ViewModels;
 
@@ -21,6 +22,10 @@ public partial class MemberEditViewModel: ObservableObject
     private string _title = "Update member";
 
     [ObservableProperty]
+    private string _errorMessage = null!;
+
+    [ObservableProperty]
+    private MemberUpdateRequest? _memberReq;
     private string _lastName; // nytt fält för efternamn
 
     public void SetMember(MemberUpdateRequest member)
@@ -44,23 +49,13 @@ public partial class MemberEditViewModel: ObservableObject
     {
         // eventuellt logik för att avbryta redigering
     }
-}
 
-    public void SetMember(MemberUpdateRequest member)
-    {
-   
-    }
 
-    [RelayCommand]
-    private async Task Save()
-    {
-        
-    }
+    
 
-    [RelayCommand]
-    private void Cancel()
-    {
-       
-    }
+  
+
+  
+
 }
  

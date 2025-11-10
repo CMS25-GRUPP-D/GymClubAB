@@ -1,12 +1,14 @@
-﻿using Infrastructure.Interfaces;
+﻿using Infrastructure.DTOs;
+using Infrastructure.Interfaces;
 using Infrastructure.Models;
 
 namespace Infrastructure.Services
 {
-    public class MemberService(IJsonRepository jsonRepository) : IMemberService
+    public class MemberService(IJsonRepository jsonRepository, IMemberMapper memberMapper) : IMemberService
     {
         private IJsonRepository _jsonRepository = jsonRepository;
         private readonly List<Member> _members = [];
+        private readonly IMemberMapper _memberMapper = memberMapper;
 
         public async Task<ResponseResult<bool>> DeleteMemberAsync(string ssn)
         {
@@ -136,16 +138,42 @@ namespace Infrastructure.Services
                 Message = "Medlemmen har sparats."
             };
         }
-        public async Task<bool> UpdateMemberAsync(Member member)
+        public async Task<ResponseResult> UpdateMemberAsync(MemberUpdateRequest updateRequest)
         {
-            var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == member.SocialSecurityNumber);
+            if (updateRequest is null)
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Invalid update request"
+                };
+
+            var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == updateRequest.SocialSecurityNumber);
             if (existing == null)
-                return await Task.FromResult(false);
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = "Member not found"
+                };
 
-            existing.PostalCode = member.PostalCode;
-            await _jsonRepository.SaveContentToFileAsync(_members);
+            try
+            {
+                _memberMapper.MapFromUpdateRequestToMember(existing, updateRequest);
+                await _jsonRepository.SaveContentToFileAsync(_members);
 
-            return await Task.FromResult(true);
+                return new ResponseResult
+                {
+                    Success = true,
+                    Message = "Member updated successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseResult
+                {
+                    Success = false,
+                    Message = $"Failed to update member: {ex.Message}"
+                };
+            }
         }
 
         private static bool IsValidPersonNumber(string personalNumber)
