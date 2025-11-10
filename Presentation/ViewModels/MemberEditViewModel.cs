@@ -49,24 +49,13 @@ public partial class MemberEditViewModel: ObservableObject
     {
         // eventuellt logik för att avbryta redigering
     }
-}
 
-    public void SetMember(MemberUpdateRequest member)
-    {
-       
-    }
 
-    [RelayCommand]
-    private async Task Save()
-    {
+    
 
-    }
+  
 
-    [RelayCommand]
-    private void Cancel()
-    {
-       
-    }
+  
 
 }
  
