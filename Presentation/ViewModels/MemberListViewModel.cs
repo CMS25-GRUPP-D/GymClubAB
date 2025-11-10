@@ -72,9 +72,15 @@ public partial class MemberListViewModel : ObservableObject
             ErrorMessage = "Choose a member to edit.";
             return;
         }
-      
-        MemberUpdateRequest dto = _memberMapper.MapFromMemberToUpdateRequest(selectedMember);
-
+        MemberUpdateRequest dto = new MemberUpdateRequest 
+        {
+            SocialSecurityNumber = selectedMember.SocialSecurityNumber,
+            FirstName = selectedMember.FirstName,
+            LastName = selectedMember.LastName,
+            Email = selectedMember.Email,
+            Phonenumber = selectedMember.Phonenumber,
+            Membership = selectedMember.Membership
+        };
         // Hämta en instans av editviewmodel och skicka med medlemmen som ska redigeras
         MemberEditViewModel editviewmodel = _serviceProvider.GetRequiredService<MemberEditViewModel>();
         editviewmodel.SetMember(dto); // SetMember-metoden skrivs i edit-metoden i membereditviewmodel

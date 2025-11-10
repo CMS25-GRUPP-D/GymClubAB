@@ -26,6 +26,30 @@ public partial class MemberEditViewModel: ObservableObject
 
     [ObservableProperty]
     private MemberUpdateRequest? _memberReq;
+    private string _lastName; // nytt fält för efternamn
+
+    public void SetMember(MemberUpdateRequest member)
+    {
+        LastName = member.LastName; // visar befintligt efternamn om det finns
+    }
+
+    [RelayCommand]
+    private async Task Save()
+    {
+        var updateRequest = new MemberUpdateRequest
+        {
+            LastName = LastName // skickar med efternamnet till service-lagret
+        };
+
+        await _memberService.UpdateMemberAsync(updateRequest);
+    }
+
+    [RelayCommand]
+    private void Cancel()
+    {
+        // eventuellt logik för att avbryta redigering
+    }
+}
 
     public void SetMember(MemberUpdateRequest member)
     {
