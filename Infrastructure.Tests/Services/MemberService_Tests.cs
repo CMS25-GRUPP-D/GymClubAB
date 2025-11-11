@@ -10,20 +10,26 @@ namespace Infrastructure.Tests.Services;
 
 public class MemberService_Tests
 {
+    private readonly Mock<IMemberMapper> _mapperMock = new Mock<IMemberMapper>();
+
+
     [Fact]
     public async Task SaveMemberAsync_ShouldSaveMember_When_Data_Is_Valid()
     {
         // Arrange
         var mockRepo = new Mock<IJsonRepository>();
-        var service = new MemberService(mockRepo.Object);
+        var service = new MemberService(mockRepo.Object, _mapperMock.Object);
 
-        var member = new Member
+
+        var validMember = new Member
         {
             SocialSecurityNumber = "19900101-1234",
+            PostalCode = "12345",
+            TermsAccepted = true,
         };
 
         // Act
-        var result = await service.SaveMemberAsync(member);
+        var result = await service.SaveMemberAsync(validMember);
 
         // Assert
         Assert.True(result.Success);
@@ -35,7 +41,7 @@ public class MemberService_Tests
     {
         // Arrange
         var mockRepo = new Mock<IJsonRepository>();
-        var service = new MemberService(mockRepo.Object);
+        var service = new MemberService(mockRepo.Object, _mapperMock.Object);
 
         // Act
         var result = await service.SaveMemberAsync(null);
@@ -50,7 +56,7 @@ public class MemberService_Tests
     {
         // Arrange
         var mockRepo = new Mock<IJsonRepository>();
-        var service = new MemberService(mockRepo.Object);
+        var service = new MemberService(mockRepo.Object, _mapperMock.Object);
 
         var member = new Member
         {
@@ -70,15 +76,16 @@ public class MemberService_Tests
     {
         // Arrange
         var mockRepo = new Mock<IJsonRepository>();
-        var service = new MemberService(mockRepo.Object);
+        var service = new MemberService(mockRepo.Object, _mapperMock.Object);
 
         // First add a member to delete
-        var member = new Member
+        var validMember = new Member
         {
             SocialSecurityNumber = "19900101-1234",
-            PostalCode = "12345"
+            PostalCode = "12345",
+            TermsAccepted = true,
         };
-        await service.SaveMemberAsync(member);
+        await service.SaveMemberAsync(validMember);
 
         // Act
         var result = await service.DeleteMemberAsync("19900101-1234");
@@ -94,7 +101,7 @@ public class MemberService_Tests
     {
         // Arrange
         var mockRepo = new Mock<IJsonRepository>();
-        var service = new MemberService(mockRepo.Object);
+        var service = new MemberService(mockRepo.Object, _mapperMock.Object);
 
         // Act
         var result = await service.DeleteMemberAsync("19900101-9999");
