@@ -26,6 +26,9 @@ public partial class MemberEditViewModel: ObservableObject
 
     [ObservableProperty]
     private MemberUpdateRequest? _memberReq;
+
+
+    [ObservableProperty]
     private string _lastName; // nytt fält för efternamn
 
     public void SetMember(MemberUpdateRequest member)
