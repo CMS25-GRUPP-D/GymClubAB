@@ -7,14 +7,6 @@ public enum MembershipLevel
     Gold
 }
 
-public enum MembershipLevel
-{
-    None,
-    Bronze,
-    Silver,
-    Gold
-}
-
 public class Member
 {
     public string SocialSecurityNumber { get; set; } = null!;
@@ -25,12 +17,12 @@ public class Member
     public string? Email { get; set; }
     public string? Phonenumber { get; set; }
 
-    
+
     public MembershipLevel Membership { get; set; } = MembershipLevel.None;
 
     public decimal Price { get; set; }
     public string Benefits { get; set; } = string.Empty;
 
-    
+
     public string MembershipLevelString => Membership.ToString();
 }
