@@ -9,12 +9,31 @@ namespace Infrastructure.Services
         private IJsonRepository _jsonRepository = jsonRepository;
         private readonly List<Member> _members = [];
         private readonly IMemberMapper _memberMapper = memberMapper;
+        private bool _loaded;
+
+        public async Task<ResponseResult> EnsureLoadedAsync() 
+        {
+            if (_loaded)
+                return new ResponseResult { Success = true };
+
+            ResponseResult<IEnumerable<Member>> result = await _jsonRepository.GetContentFromFile();
+            if (!result.Success || result.Data is null)
+            {
+                return new ResponseResult { Success = false, Message = "Unknown error occurred while loading data"};
+            }
+            _members.AddRange(result.Data);
+            _loaded = true;
+
+            return new ResponseResult { Success = true};
+        }
+
 
         public async Task<ResponseResult<bool>> DeleteMemberAsync(string ssn)
         {
-
             try
             {
+                await EnsureLoadedAsync();
+
                 var removedCount = _members.RemoveAll(e => e.SocialSecurityNumber == ssn);
                 if (removedCount > 0)
                 {
@@ -120,6 +139,8 @@ namespace Infrastructure.Services
                 };
             }
 
+            await EnsureLoadedAsync();
+
             _members.Add(member);
             await _jsonRepository.SaveContentToFileAsync(_members);
 
@@ -137,6 +158,8 @@ namespace Infrastructure.Services
                     Success = false,
                     Message = "Invalid update request"
                 };
+
+            await EnsureLoadedAsync();
 
             var existing = _members.FirstOrDefault(m => m.SocialSecurityNumber == updateRequest.SocialSecurityNumber);
             if (existing == null)

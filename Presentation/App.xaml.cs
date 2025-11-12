@@ -54,12 +54,6 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        string dataDir = "Data";
-        string fileName = "members.json";
-        string filePath = Path.Combine(dataDir, fileName);
-
-        // Säkerställ att katalog och fil finns
-        JsonRepository.EnsureInitialized(dataDir, filePath);
 
         MainViewModel mainViewModel = _host!.Services.GetRequiredService<MainViewModel>();
         mainViewModel.CurrentViewModel = _host!.Services.GetRequiredService<MemberListViewModel>();
