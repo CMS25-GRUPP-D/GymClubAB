@@ -7,13 +7,15 @@ namespace Infrastructure.Repositories;
 public class JsonRepository : IJsonRepository
 {
     private readonly string _filePath;
-    private readonly string _dataDirectory;
     private static JsonSerializerOptions _jsonOptions = new() { WriteIndented = true };
 
-    public JsonRepository()
+    public JsonRepository(string fileName ="members.json")
     {
-        _dataDirectory = Path.Combine(AppContext.BaseDirectory, "Data");
-        _filePath = Path.Combine(_dataDirectory, "members.json");
+        string baseDirectory = AppContext.BaseDirectory;
+        string dataDirectory = Path.Combine(baseDirectory, "Data");
+        _filePath = Path.Combine(dataDirectory, fileName);
+
+        EnsureInitialized(dataDirectory, _filePath);
     }
 
     public static void EnsureInitialized(string dataDirectory, string filePath)
@@ -34,10 +36,12 @@ public class JsonRepository : IJsonRepository
 
     public async Task SaveContentToFileAsync(IEnumerable<Member> members)
     {
-        if (!Directory.Exists(_dataDirectory))
+        string directory = Path.GetDirectoryName(_filePath)!;
+        if (!Directory.Exists(directory))
         {
-            Directory.CreateDirectory(_dataDirectory);
+            Directory.CreateDirectory(directory);
         }
+
         var json = JsonSerializer.Serialize(members, _jsonOptions);
         await File.WriteAllTextAsync(_filePath, json);
 
