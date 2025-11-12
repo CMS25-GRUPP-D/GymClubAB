@@ -1,4 +1,13 @@
-﻿using System.Configuration;
+﻿using Infrastructure.Interfaces;
+using Infrastructure.Mappers;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Presentation.Services;
+using Presentation.ViewModels;
+using Presentation.Views;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Windows;
@@ -23,6 +32,7 @@ public partial class App : Application
         {
             services.AddSingleton<IJsonRepository, JsonRepository>();
             services.AddSingleton<IMemberService, MemberService>();
+            services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddTransient<MemberAddViewModel>();
@@ -30,6 +40,11 @@ public partial class App : Application
 
             services.AddScoped<MemberListViewModel>();
             services.AddScoped<MemberListView>();
+
+            services.AddScoped<MemberEditViewModel>();
+            services.AddScoped<MemberEditView>();
+
+            services.AddScoped<IMemberMapper, MemberMapper>();
 
         })
         .Build();
@@ -47,7 +62,7 @@ public partial class App : Application
         JsonRepository.EnsureInitialized(dataDir, filePath);
 
         MainViewModel mainViewModel = _host!.Services.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = _host!.Services.GetRequiredService<MemberAddViewModel>();
+        mainViewModel.CurrentViewModel = _host!.Services.GetRequiredService<MemberListViewModel>();
 
         MainWindow mainWindow = _host!.Services.GetRequiredService<MainWindow>();
         mainWindow.DataContext = mainViewModel;

@@ -23,34 +23,57 @@
         
         <TextBlock Grid.Row="0" Text="{Binding SuccessMessage}" Margin="5 0 5 0" Foreground="Green" />
         <TextBlock Grid.Row="1" Margin="5 5 0 0" VerticalAlignment="Center" Text="{Binding Title, FallbackValue=Member list}" FontWeight="Bold" FontSize="18"  />
-        <Button Grid.Row="2" HorizontalAlignment="Right" Command="{Binding GoToMemberAddViewCommand}" Content="New member" VerticalAlignment="Stretch" Margin="0 10 0 10"  MinWidth="65" Padding="5 5" Background="LightBlue" FontSize="10" FontWeight="Bold"/>
+        <Button Grid.Row="2" HorizontalAlignment="Right" Command="{Binding NavigateToMemberAddViewCommand}" Content="New member" VerticalAlignment="Stretch" Margin="0 10 3 10" Width="80" Height="28" Padding="5 5" Background="LightBlue" FontSize="10" FontWeight="Bold"/>
 
-        <ListView Grid.Row="3" ItemsSource="{Binding Members}" HorizontalContentAlignment="Stretch"  >
+        <ListView Grid.Row="3" ItemsSource="{Binding Members}" HorizontalContentAlignment="Stretch" Padding="0"  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+
+
+
+
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:Member}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="70" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding SocialSecurityNumber}" />
                         <TextBlock Grid.Column="1" Text="{Binding FirstName}" />
                         <TextBlock Grid.Column="2" Text="{Binding LastName}"/>
-                        <TextBlock Grid.Column="3" Text="{Binding Email}"/>
                         <TextBlock Grid.Column="3" Text="{Binding Phonenumber}"/>
+                        <TextBlock Grid.Column="4" Text="{Binding PostalCode}" />
                         <TextBlock Grid.Column="5" Text="{Binding Membership}"/>
-                        <TextBlock Grid.Column="4" Text="{Binding PostalCode}" Margin="10,0,0,0"/>
- 
+                        
 
-                        <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 7 0">
-                            <Button Content="Redigera" Background="#C9D6DF" Padding="5 5" Margin="0 0 8 0" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                            <Button Content="Ta bort" Background="#F28B82" Padding="5 5" FontSize="10" CommandParameter="{Binding SocialSecurityNumber}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                        <Grid Grid.Column="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0" Text="{Binding Email}" VerticalAlignment="Center"/>
+
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                                <Button Content="Edit" Background="#C9D6DF" Width="80" Height="28" Padding="5 5" Margin="0 0 8 0" FontWeight="Bold" FontSize="10" CommandParameter="{Binding .}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                <Button Content="Remove" Background="#F28B82" Width="80" Height="28" Padding="5 5" FontSize="10" FontWeight="Bold" CommandParameter="{Binding SocialSecurityNumber}" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                         </StackPanel>
+                    </Grid>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
