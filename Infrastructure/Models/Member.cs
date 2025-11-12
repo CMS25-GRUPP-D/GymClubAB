@@ -1,4 +1,11 @@
 ﻿namespace Infrastructure.Models;
+public enum MembershipLevel
+{
+    None,
+    Bronze,
+    Silver,
+    Gold
+}
 
 public enum MembershipLevel
 {

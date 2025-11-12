@@ -11,6 +11,13 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Windows;
+using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Presentation.ViewModels;
+using Presentation.Views;
 
 namespace Presentation;
 
